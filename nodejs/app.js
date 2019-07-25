@@ -3,9 +3,10 @@ const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
 const app = express();
 
-app.use(express.json());
+const mongoose = require('mongoose');
+const Event = require('./models/event');
 
-const events = [];
+app.use(express.json());
 
 app.use(
   '/graphql',
@@ -40,25 +41,33 @@ app.use(
       }
     `),
     rootValue: {
-      events: () => {
-        return events;
+      events: async () => {
+        const docs = await Event.find().exec();
+        return docs.map(doc => {
+          return { ...doc._doc };
+        });
       },
-      createEvent: (args) => {
+      createEvent: async (args) => {
         const { eventInput } = args;
-
-        const event = {
-          _id: Math.random().toString(),
+        const event = new Event({
           title: eventInput.title,
           description: eventInput.description,
           price: +eventInput.price,
-          date: new Date().toISOString(),
-        };
-        events.push(event);
-        return event;
+          date: new Date(eventInput.date),
+        });
+        const result = await event.save();
+        return result._doc;
       }
     },
     graphiql: true,
   }),
 );
+
+mongoose
+  .connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@ds031893.mlab.com:31893/learn-graphql`, {
+    useNewUrlParser: true
+  })
+  .then(() => console.log('Connected to database'))
+  .catch((e) => console.log('Connect to database error: ', e));
 
 app.listen(3000, () => console.log('App running...'));
