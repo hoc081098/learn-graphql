@@ -8,8 +8,12 @@ const resolvers = {
     const events = await Event.find().exec();
     return events.map(transformEvent);
   },
-  createEvent: async args => {
-    const user = await User.findById('5d3c84f9c85de004ac6b84c9');
+  createEvent: async (args, req) => {
+    if (!req.isAuth) {
+      throw new Error('Unauthenticated!');
+    }
+
+    const user = await User.findById(req.userId);
     if (!user) {
       throw new Error('User not found');
     }
@@ -20,7 +24,7 @@ const resolvers = {
       description: eventInput.description,
       price: +eventInput.price,
       date: new Date(eventInput.date),
-      creator: '5d3c84f9c85de004ac6b84c9'
+      creator: req.userId
     });
     const result = await event.save();
 
