@@ -25,7 +25,15 @@ dependencies:
   cupertino_icons: ^0.1.2
   bottom_navy_bar: ^5.1.0
 
+  built_value: ^6.7.0
+  rxdart: ^0.22.1
+  rx_shared_preference: ^1.0.2
+
+  graphql_flutter: ^2.0.0
+
 dev_dependencies:
+  built_value_generator: ^6.7.0
+  build_runner: ^1.6.5
   flutter_test:
     sdk: flutter
 
