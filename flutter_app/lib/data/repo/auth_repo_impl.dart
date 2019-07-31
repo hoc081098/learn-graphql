@@ -91,7 +91,7 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<bool> register(String email, String password) async {
     try {
-      final options = QueryOptions(
+      final options = MutationOptions(
         document: r'''
           mutation CreateUser($email: String!, $password: String!) {
             createUser(userInput: { email: $email, password: $password }) {
@@ -106,7 +106,7 @@ class AuthRepoImpl implements AuthRepo {
         },
         errorPolicy: ErrorPolicy.all,
       );
-      final data = await _api.queryUnauth(options);
+      final data = await _api.mutateUnauth(options);
       print('[AUTH_REPO] register data=$data');
       return true;
     } catch (e, s) {
