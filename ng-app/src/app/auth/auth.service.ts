@@ -30,8 +30,17 @@ const tokenKey = 'TOKEN';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly tokenSubject = new BehaviorSubject<string>(
-    localStorage.getItem(tokenKey)
+  private readonly tokenSubject = new BehaviorSubject<{
+    token: string;
+    userId: string;
+  }>(
+    (() => {
+      try {
+        return JSON.parse(localStorage.getItem(tokenKey));
+      } catch {
+        return null;
+      }
+    })()
   );
 
   constructor(private readonly apollo: Apollo) {}
@@ -47,12 +56,12 @@ export class AuthService {
       })
       .pipe(
         tap(result => {
-          const token = result.data.login.token;
+          const data = result.data.login;
 
-          localStorage.setItem(tokenKey, token);
-          this.tokenSubject.next(token);
+          localStorage.setItem(tokenKey, JSON.stringify(data));
+          this.tokenSubject.next(data);
 
-          console.log(`[LOGIN] ${JSON.stringify(result.data.login)}`);
+          console.log(`[LOGIN] ${JSON.stringify(data)}`);
         })
       );
   }
@@ -78,7 +87,14 @@ export class AuthService {
 
   isLoggedIn$() {
     return this.tokenSubject.pipe(
-      map(token => !!token),
+      map(data => !!data),
+      shareReplay(1)
+    );
+  }
+
+  currentUserId$() {
+    return this.tokenSubject.pipe(
+      map(data => data ? data.userId : null),
       shareReplay(1)
     );
   }

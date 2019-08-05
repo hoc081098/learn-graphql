@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ event[0].title }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      Created by {{ event[0].creator.email }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>${{ event[0].price }} - {{ event[0].date | date: 'medium' }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+      *ngIf="
+        event[0].creator._id !== event[1];
+        else isOwnerEvent
+      "
+      mat-button
+      color="primary"
+      (click)="clickEvent.emit(event[0])"
+    >
+      View details
+    </button>
+    <ng-template #isOwnerEvent>
+      <p class="mat-caption">
+        You are owner event
+      </p>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>

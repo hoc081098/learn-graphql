@@ -1,1 +1,13 @@
-<p>events works!</p>
+<div class="events">
+  <div *ngIf="authService.isLoggedIn$() | async">
+    <mat-card class="events-control">
+      <p>Share your own Events!</p>
+
+      <mat-card-content>
+        <button mat-raised-button color="primary">Create Events</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <app-events-list></app-events-list>
+</div>

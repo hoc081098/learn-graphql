@@ -11,13 +11,25 @@ import { SharedModule } from './shared/shared.module';
 import { AuthService } from './auth/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { GraphQLModule } from './graphql.module';
+import {
+  EventsListComponent,
+  DialogOverviewExampleDialog
+} from './events/events-list/events-list.component';
+import { EventsService } from './events/events.service';
+import { EventsItemComponent } from './events/events-list/events-item/events-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginRegisterComponent,
     EventsComponent,
-    BookingsComponent
+    BookingsComponent,
+    EventsListComponent,
+    EventsItemComponent,
+    DialogOverviewExampleDialog
+  ],
+  entryComponents: [
+    DialogOverviewExampleDialog
   ],
   imports: [
     BrowserModule,
@@ -25,9 +37,9 @@ import { GraphQLModule } from './graphql.module';
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
-    GraphQLModule,
+    GraphQLModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, EventsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

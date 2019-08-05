@@ -1,0 +1,8 @@
+<div *ngIf="events$ | async as events">
+  <div *ngFor="let event of events" class="events-list">
+    <app-events-item
+      [event]="event"
+      (clickEvent)="handleClickEvent($event)"
+    ></app-events-item>
+  </div>
+</div>
