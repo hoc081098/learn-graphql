@@ -1,0 +1,8 @@
+.login-register-card {
+  margin: 3rem auto 0px;
+  max-width: 70%;
+}
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}

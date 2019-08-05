@@ -9,6 +9,8 @@ import { BookingsComponent } from './bookings/bookings.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { AuthService } from './auth/auth.service';
+import { HttpClientModule } from '@angular/common/http';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { AuthService } from './auth/auth.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
+    HttpClientModule,
+    GraphQLModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
