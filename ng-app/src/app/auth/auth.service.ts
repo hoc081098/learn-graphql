@@ -66,7 +66,7 @@ export class AuthService {
   }
 
   currentToken(): string | null {
-    const data = this.authSubject.value;
+    const data = JSON.parse(localStorage.getItem(AUTH_KEY));
     return data ? data.token : null;
   }
 
