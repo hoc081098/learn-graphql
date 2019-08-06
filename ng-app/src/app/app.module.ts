@@ -10,13 +10,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { AuthService } from './auth/auth.service';
 import { HttpClientModule } from '@angular/common/http';
-import { GraphQLModule } from './graphql.module';
-import {
-  EventsListComponent,
-  DialogOverviewExampleDialog
-} from './events/events-list/events-list.component';
+import { EventsListComponent } from './events/events-list/events-list.component';
 import { EventsService } from './events/events.service';
 import { EventsItemComponent } from './events/events-list/events-item/events-item.component';
+import { GraphQLModule } from './graphql/graphql.module';
+import { CreateEventDialogComponent } from './events/create-event-dialog/create-event-dialog.component';
+import { EventDetailDialogComponent } from './events/events-list/event-detail-dialog/event-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,10 +25,8 @@ import { EventsItemComponent } from './events/events-list/events-item/events-ite
     BookingsComponent,
     EventsListComponent,
     EventsItemComponent,
-    DialogOverviewExampleDialog
-  ],
-  entryComponents: [
-    DialogOverviewExampleDialog
+    CreateEventDialogComponent,
+    EventDetailDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +37,7 @@ import { EventsItemComponent } from './events/events-list/events-item/events-ite
     GraphQLModule
   ],
   providers: [AuthService, EventsService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [EventDetailDialogComponent, CreateEventDialogComponent]
 })
 export class AppModule {}

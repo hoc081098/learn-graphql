@@ -1,0 +1,25 @@
+mutation CreateEvent(
+  $title: String!
+  $description: String!
+  $price: Float!
+  $date: String!
+) {
+  createEvent(
+    eventInput: {
+      title: $title
+      description: $description
+      price: $price
+      date: $date
+    }
+  ) {
+    _id
+    title
+    description
+    price
+    date
+    creator {
+      _id
+      email
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<div mat-dialog-content>
+  <p>{{ data.date | date: 'medium' }}</p>
+  <mat-divider></mat-divider>
+  <p>${{ data.price }}</p>
+  <mat-divider></mat-divider>
+  <p>{{ data.description }}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close(false)">Cancel</button>
+  <button mat-button (click)="dialogRef.close(true)" cdkFocusInitial>
+    Bookings
+  </button>
+</div>

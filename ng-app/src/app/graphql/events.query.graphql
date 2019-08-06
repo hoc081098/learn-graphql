@@ -1,0 +1,13 @@
+query Events {
+  events {
+    _id
+    title
+    description
+    price
+    date
+    creator {
+      _id
+      email
+    }
+  }
+}

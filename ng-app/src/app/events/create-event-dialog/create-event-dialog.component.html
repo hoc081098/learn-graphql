@@ -1,0 +1,74 @@
+<h1 mat-dialog-title>Add event</h1>
+<div mat-dialog-content>
+  <form (ngSubmit)="submit()" [formGroup]="formGroup">
+    <mat-form-field>
+      <input
+        type="text"
+        matInput
+        required
+        placeholder="Title"
+        formControlName="title"
+      />
+      <mat-icon matPrefix>title</mat-icon>
+      <mat-error *ngIf="formGroup.controls['title'].invalid">{{
+        getTitleError()
+      }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        type="number"
+        matInput
+        required
+        placeholder="Price"
+        formControlName="price"
+        min="1"
+      />
+      <mat-icon matPrefix>attach_money</mat-icon>
+      <mat-error *ngIf="formGroup.controls['price'].invalid">{{
+        getPriceError()
+      }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        type="datetime-local"
+        matInput
+        required
+        placeholder="Date"
+        formControlName="date"
+        min="1"
+      />
+      <mat-icon matPrefix>date_range</mat-icon>
+      <mat-error *ngIf="formGroup.controls['date'].invalid">{{
+        getDateError()
+      }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea
+        matInput
+        required
+        rows="4"
+        formControlName="description"
+        placeholder="Description"
+        minlength="10"
+      ></textarea>
+      <mat-icon matPrefix>description</mat-icon>
+      <mat-error *ngIf="formGroup.controls['description'].invalid">{{
+        getDescriptionError()
+      }}</mat-error>
+
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button
+    mat-button
+    (click)="submit()"
+    [disabled]="!formGroup.valid"
+  >
+    Confirm
+  </button>
+</div>

@@ -1,106 +1,84 @@
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { ApolloQueryResult } from 'apollo-client';
 import { tap, map, shareReplay } from 'rxjs/operators';
+import { LoginGQL, Login, CreateUserGQL } from '../generated/graphql';
+import { Apollo } from 'apollo-angular';
 
-const LoginQuery = gql`
-  query Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      userId
-      token
-      tokenExpiration
-    }
-  }
-`;
-
-const CreateUserMutation = gql`
-  mutation CreateUser($email: String!, $password: String!) {
-    createUser(userInput: { email: $email, password: $password }) {
-      _id
-      email
-    }
-  }
-`;
-
-const tokenKey = 'TOKEN';
+export const AUTH_KEY = 'AUTH_KEY';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly tokenSubject = new BehaviorSubject<{
+  private readonly authSubject = new BehaviorSubject<{
     token: string;
     userId: string;
   }>(
     (() => {
       try {
-        return JSON.parse(localStorage.getItem(tokenKey));
+        return JSON.parse(localStorage.getItem(AUTH_KEY));
       } catch {
         return null;
       }
     })()
   );
 
-  constructor(private readonly apollo: Apollo) {}
+  constructor(
+    private readonly createUserGQL: CreateUserGQL,
+    private readonly loginGQL: LoginGQL
+  ) {}
 
-  login(email: string, password: string): Observable<ApolloQueryResult<any>> {
-    return this.apollo
-      .query({
-        query: LoginQuery,
-        variables: {
-          email,
-          password
-        }
+  login(
+    email: string,
+    password: string
+  ): Observable<ApolloQueryResult<Login.Query>> {
+    return this.loginGQL
+      .fetch({
+        email,
+        password
       })
       .pipe(
         tap(result => {
           const data = result.data.login;
 
-          localStorage.setItem(tokenKey, JSON.stringify(data));
-          this.tokenSubject.next(data);
+          localStorage.setItem(AUTH_KEY, JSON.stringify(data));
+          this.authSubject.next(data);
 
-          console.log(`[LOGIN] ${JSON.stringify(data)}`);
+          console.log('[LOGIN] ', data);
         })
       );
   }
 
-  register(
-    email: string,
-    password: string
-  ): Observable<ApolloQueryResult<any>> {
-    return this.apollo
-      .mutate({
-        mutation: CreateUserMutation,
-        variables: {
-          email,
-          password
-        }
+  register(email: string, password: string) {
+    return this.createUserGQL.mutate({ email, password }).pipe(
+      tap(result => {
+        console.log('[REGISTER] ', result.data.createUser);
       })
-      .pipe(
-        tap(result => {
-          console.log(`[REGISTER] ${JSON.stringify(result.data.createUser)}`);
-        })
-      );
+    );
   }
 
   isLoggedIn$() {
-    return this.tokenSubject.pipe(
+    return this.authSubject.pipe(
       map(data => !!data),
       shareReplay(1)
     );
   }
 
+  currentToken(): string | null {
+    const data = this.authSubject.value;
+    return data ? data.token : null;
+  }
+
   currentUserId$() {
-    return this.tokenSubject.pipe(
-      map(data => data ? data.userId : null),
+    return this.authSubject.pipe(
+      map(data => (data ? data.userId : null)),
       shareReplay(1)
     );
   }
 
   logout() {
-    localStorage.removeItem(tokenKey);
-    this.tokenSubject.next(null);
+    localStorage.removeItem(AUTH_KEY);
+    this.authSubject.next(null);
   }
 }

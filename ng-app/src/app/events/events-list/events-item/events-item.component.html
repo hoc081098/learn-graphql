@@ -12,10 +12,7 @@
   </mat-card-content>
   <mat-card-actions>
     <button
-      *ngIf="
-        event[0].creator._id !== event[1];
-        else isOwnerEvent
-      "
+      *ngIf="event[0].creator._id !== event[1]; else isOwnerEvent"
       mat-button
       color="primary"
       (click)="clickEvent.emit(event[0])"
@@ -23,9 +20,9 @@
       View details
     </button>
     <ng-template #isOwnerEvent>
-      <p class="mat-caption">
+      <button mat-button color="primary">
         You are owner event
-      </p>
+      </button>
     </ng-template>
   </mat-card-actions>
 </mat-card>

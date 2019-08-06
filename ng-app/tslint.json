@@ -88,5 +88,10 @@
   },
   "rulesDirectory": [
     "codelyzer"
-  ]
+  ],
+  "linterOptions": {
+    "exclude": [
+      "src/app/generated/graphql.ts"
+    ]
+  }
 }

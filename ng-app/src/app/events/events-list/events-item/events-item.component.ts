@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Event } from '../../event';
+import { Events } from 'src/app/generated/graphql';
 
 @Component({
   selector: 'app-events-item',
@@ -8,14 +8,12 @@ import { Event } from '../../event';
 })
 export class EventsItemComponent implements OnInit {
   @Input()
-  event: [Event, string];
+  event: [Events.Events, string];
 
   @Output()
-  clickEvent = new EventEmitter<Event>();
+  clickEvent = new EventEmitter<Events.Events>();
 
   constructor() {}
 
-  ngOnInit() {
-    console.log({ event: this.event });
-  }
+  ngOnInit() {}
 }

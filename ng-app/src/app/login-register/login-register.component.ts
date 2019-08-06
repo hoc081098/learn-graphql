@@ -6,6 +6,7 @@ import { Subject, iif, of, Subscription } from 'rxjs';
 import { exhaustMap, catchError, map } from 'rxjs/operators';
 import { ApolloQueryResult } from 'apollo-client';
 import { Router, ActivatedRoute } from '@angular/router';
+import { getErrorMessage } from '../util/message.util';
 
 @Component({
   selector: 'app-login-register',
@@ -69,7 +70,7 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
         console.log({ error: result.error });
 
         if (result.error) {
-          const errorMessage = this.getErrorMessage(result.error);
+          const errorMessage = getErrorMessage(result.error);
 
           this.snackBar.open(
             `${
@@ -100,17 +101,6 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
           this.isLoginMode = true;
         }
       });
-  }
-
-  private getErrorMessage(error: any) {
-    try {
-      return error.networkError.error.errors.map(e => e.message).join('/n');
-    } catch {
-      try {
-        return error.graphQLErrors.map(e => e.message).join('/n');
-      } catch {}
-    }
-    return 'An unexpected error occurred';
   }
 
   ngOnDestroy() {

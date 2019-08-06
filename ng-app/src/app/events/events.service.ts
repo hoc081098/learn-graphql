@@ -1,40 +1,52 @@
 import { Injectable } from '@angular/core';
-import { Event } from './event';
-import { of, Observable } from 'rxjs';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
-import { map } from 'rxjs/operators';
-
-const EventsQuery = gql`
-  query {
-    events {
-      _id
-      title
-      description
-      price
-      date
-      creator {
-        _id
-        email
-      }
-    }
-  }
-`;
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import {
+  EventsGQL,
+  Events,
+  CreateEventGQL,
+  CreateEvent
+} from '../generated/graphql';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService {
-  constructor(private readonly apollo: Apollo) {}
+  constructor(
+    private readonly eventsGQL: EventsGQL,
+    private readonly createEventGQL: CreateEventGQL
+  ) {}
 
-  getEvents$(): Observable<Event[]> {
-    return this.apollo.query<any>({ query: EventsQuery }).pipe(
-      map(result => {
-        const events: any[] = result.data.events;
-        return events.map(event => {
-          return { ...event };
-        });
-      })
+  getEvents$(): Observable<Events.Events[]> {
+    return this.eventsGQL.watch().valueChanges.pipe(
+      map(result => result.data.events),
+      tap(events => console.log('[EVENTS]', events))
     );
+  }
+
+  createEvent(eventInput: CreateEvent.Variables) {
+    return this.createEventGQL
+      .mutate(eventInput, {
+        refetchQueries: [
+          {
+            query: this.eventsGQL.document,
+            variables: {}
+          }
+        ],
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createEvent: {
+            __typename: 'Event',
+            _id: '',
+            ...eventInput,
+            creator: {
+              __typename: 'User',
+              _id: '',
+              email: ''
+            }
+          }
+        }
+      })
+      .pipe(tap(event => console.log('[CREATE_EVENT]', event)));
   }
 }
