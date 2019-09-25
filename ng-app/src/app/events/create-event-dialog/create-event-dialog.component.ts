@@ -29,9 +29,9 @@ export class CreateEventDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CreateEventDialogComponent>,
     private readonly eventsService: EventsService,
     private readonly snackbar: MatSnackBar
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   submit() {
     if (!this.formGroup.valid) {
@@ -43,9 +43,18 @@ export class CreateEventDialogComponent implements OnInit {
     } as CreateEvent.Variables;
     console.log({ event });
 
-    this.eventsService.createEvent(event).subscribe(console.log, error => {
-      this.snackbar.open(getErrorMessage(error), undefined, { duration: 2000 });
-    });
+    this.eventsService
+      .createEvent(event)
+      .subscribe(
+        _ => {
+          this.dialogRef.close();
+          this.snackbar.open('Created event successfully', undefined, { duration: 2000 });
+        },
+        error => {
+          this.dialogRef.close();
+          this.snackbar.open(getErrorMessage(error), undefined, { duration: 2000 });
+        }
+      );
   }
 
   getTitleError(): string {

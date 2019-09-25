@@ -1,6 +1,7 @@
 import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Events } from 'src/app/generated/graphql';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-event-detail-dialog',
@@ -11,6 +12,7 @@ import { Events } from 'src/app/generated/graphql';
 export class EventDetailDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<EventDetailDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Events.Events
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: Events.Events,
+    public authService: AuthService
+  ) { }
 }
