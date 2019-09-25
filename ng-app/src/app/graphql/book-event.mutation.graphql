@@ -1,0 +1,7 @@
+mutation BookEvent($eventId: ID!) {
+  bookEvent(eventId: $eventId) {
+    _id
+    createdAt
+    updatedAt
+  }
+}

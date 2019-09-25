@@ -5,7 +5,9 @@ import {
   EventsGQL,
   Events,
   CreateEventGQL,
-  CreateEvent
+  CreateEvent,
+  BookEventGQL,
+  BookEvent
 } from '../generated/graphql';
 
 @Injectable({
@@ -14,8 +16,9 @@ import {
 export class EventsService {
   constructor(
     private readonly eventsGQL: EventsGQL,
-    private readonly createEventGQL: CreateEventGQL
-  ) {}
+    private readonly createEventGQL: CreateEventGQL,
+    private readonly bookEventGQL: BookEventGQL
+  ) { }
 
   getEvents$(): Observable<Events.Events[]> {
     return this.eventsGQL.watch().valueChanges.pipe(
@@ -48,5 +51,9 @@ export class EventsService {
         }
       })
       .pipe(tap(event => console.log('[CREATE_EVENT]', event)));
+  }
+
+  bookEvent(eventInput: BookEvent.Variables) {
+    return this.bookEventGQL.mutate(eventInput);
   }
 }

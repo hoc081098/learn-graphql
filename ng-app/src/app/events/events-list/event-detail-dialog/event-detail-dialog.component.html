@@ -9,7 +9,7 @@
 <div mat-dialog-actions>
   <button mat-button (click)="dialogRef.close(false)">Cancel</button>
   <div *ngIf="authService.isLoggedIn$() | async">
-    <button mat-button (click)="dialogRef.close(true)" cdkFocusInitial>
+    <button mat-button (click)="submitBooking()" cdkFocusInitial>
       Bookings
     </button>
   </div>

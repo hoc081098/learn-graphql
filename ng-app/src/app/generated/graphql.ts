@@ -20,6 +20,28 @@ export interface UserInput {
 // Documents
 // ====================================================
 
+export namespace BookEvent {
+  export type Variables = {
+    eventId: string;
+  };
+
+  export type Mutation = {
+    __typename?: "Mutation";
+
+    bookEvent: BookEvent;
+  };
+
+  export type BookEvent = {
+    __typename?: "Booking";
+
+    _id: string;
+
+    createdAt: string;
+
+    updatedAt: string;
+  };
+}
+
 export namespace CreateEvent {
   export type Variables = {
     title: string;
@@ -150,6 +172,23 @@ import gql from "graphql-tag";
 // Apollo Services
 // ====================================================
 
+@Injectable({
+  providedIn: "root"
+})
+export class BookEventGQL extends Apollo.Mutation<
+  BookEvent.Mutation,
+  BookEvent.Variables
+> {
+  document: any = gql`
+    mutation BookEvent($eventId: ID!) {
+      bookEvent(eventId: $eventId) {
+        _id
+        createdAt
+        updatedAt
+      }
+    }
+  `;
+}
 @Injectable({
   providedIn: "root"
 })
