@@ -1,0 +1,11 @@
+query Bookings {
+  bookings {
+    _id
+    event {
+      _id
+      title
+      date
+    }
+    createdAt
+  }
+}

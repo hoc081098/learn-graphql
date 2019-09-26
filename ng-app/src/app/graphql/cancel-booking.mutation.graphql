@@ -1,0 +1,6 @@
+mutation CancelBooking($bookingId: ID!) {
+  cancelBooking(bookingId: $bookingId) {
+    _id
+    title
+  }
+}

@@ -42,6 +42,56 @@ export namespace BookEvent {
   };
 }
 
+export namespace Bookings {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: "Query";
+
+    bookings: Bookings[];
+  };
+
+  export type Bookings = {
+    __typename?: "Booking";
+
+    _id: string;
+
+    event: Event;
+
+    createdAt: string;
+  };
+
+  export type Event = {
+    __typename?: "Event";
+
+    _id: string;
+
+    title: string;
+
+    date: string;
+  };
+}
+
+export namespace CancelBooking {
+  export type Variables = {
+    bookingId: string;
+  };
+
+  export type Mutation = {
+    __typename?: "Mutation";
+
+    cancelBooking: CancelBooking;
+  };
+
+  export type CancelBooking = {
+    __typename?: "Event";
+
+    _id: string;
+
+    title: string;
+  };
+}
+
 export namespace CreateEvent {
   export type Variables = {
     title: string;
@@ -185,6 +235,43 @@ export class BookEventGQL extends Apollo.Mutation<
         _id
         createdAt
         updatedAt
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
+export class BookingsGQL extends Apollo.Query<
+  Bookings.Query,
+  Bookings.Variables
+> {
+  document: any = gql`
+    query Bookings {
+      bookings {
+        _id
+        event {
+          _id
+          title
+          date
+        }
+        createdAt
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
+export class CancelBookingGQL extends Apollo.Mutation<
+  CancelBooking.Mutation,
+  CancelBooking.Variables
+> {
+  document: any = gql`
+    mutation CancelBooking($bookingId: ID!) {
+      cancelBooking(bookingId: $bookingId) {
+        _id
+        title
       }
     }
   `;

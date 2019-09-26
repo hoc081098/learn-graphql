@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
   MatDialogRef,
-  MatFormFieldControl,
   MatSnackBar
 } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CreateEvent } from 'src/app/generated/graphql';
 import { EventsService } from '../events.service';
 import { getErrorMessage } from 'src/app/util/message.util';
+import { CreateEvent } from 'src/app/graphql/generated/graphql';
 
 @Component({
   selector: 'app-create-event-dialog',

@@ -16,6 +16,8 @@ import { EventsItemComponent } from './events/events-list/events-item/events-ite
 import { GraphQLModule } from './graphql/graphql.module';
 import { CreateEventDialogComponent } from './events/create-event-dialog/create-event-dialog.component';
 import { EventDetailDialogComponent } from './events/events-list/event-detail-dialog/event-detail-dialog.component';
+import { BookingItemComponent } from './bookings/booking-item/booking-item.component';
+import { CancelBookingDialogComponent } from './bookings/cancel-booking-dialog/cancel-booking-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { EventDetailDialogComponent } from './events/events-list/event-detail-di
     EventsListComponent,
     EventsItemComponent,
     CreateEventDialogComponent,
-    EventDetailDialogComponent
+    EventDetailDialogComponent,
+    BookingItemComponent,
+    CancelBookingDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +42,10 @@ import { EventDetailDialogComponent } from './events/events-list/event-detail-di
   ],
   providers: [AuthService, EventsService],
   bootstrap: [AppComponent],
-  entryComponents: [EventDetailDialogComponent, CreateEventDialogComponent]
+  entryComponents: [
+    EventDetailDialogComponent,
+    CreateEventDialogComponent,
+    CancelBookingDialogComponent,
+  ],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Cancel booking</h1>
+<div mat-dialog-content>
+  <p>Event title: {{ data.event.title }}</p>
+  <p>Event date: {{ data.event.date | date: 'medium' }}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <div >
+    <button mat-button (click)="submitCancelBooking.next()" cdkFocusInitial>
+      OK
+    </button>
+  </div>
+</div>

@@ -4,7 +4,7 @@ import { EventsService } from '../events.service';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
-import { Events } from 'src/app/generated/graphql';
+import { Events } from 'src/app/graphql/generated/graphql';
 import { EventDetailDialogComponent } from './event-detail-dialog/event-detail-dialog.component';
 @Component({
   selector: 'app-events-list',

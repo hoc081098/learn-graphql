@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { ApolloQueryResult } from 'apollo-client';
 import { tap, map, shareReplay } from 'rxjs/operators';
-import { LoginGQL, Login, CreateUserGQL } from '../generated/graphql';
 import { Apollo } from 'apollo-angular';
+import { CreateUserGQL, LoginGQL, Login } from '../graphql/generated/graphql';
 
 export const AUTH_KEY = 'AUTH_KEY';
 

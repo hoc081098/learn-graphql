@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import {
-  EventsGQL,
-  Events,
-  CreateEventGQL,
-  CreateEvent,
-  BookEventGQL,
-  BookEvent
-} from '../generated/graphql';
+import { EventsGQL, CreateEventGQL, BookEventGQL, Events, CreateEvent, BookEvent, BookingsGQL } from '../graphql/generated/graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +10,8 @@ export class EventsService {
   constructor(
     private readonly eventsGQL: EventsGQL,
     private readonly createEventGQL: CreateEventGQL,
-    private readonly bookEventGQL: BookEventGQL
+    private readonly bookEventGQL: BookEventGQL,
+    private readonly bookingsGQL: BookingsGQL,
   ) { }
 
   getEvents$(): Observable<Events.Events[]> {
@@ -54,6 +48,22 @@ export class EventsService {
   }
 
   bookEvent(eventInput: BookEvent.Variables) {
-    return this.bookEventGQL.mutate(eventInput);
+    return this.bookEventGQL.mutate(eventInput, {
+      refetchQueries: [
+        {
+          query: this.bookingsGQL.document,
+          variables: {}
+        }
+      ],
+      optimisticResponse: {
+        __typename: 'Mutation',
+        bookEvent: {
+          __typename: 'Booking',
+          _id: '',
+          createdAt: '',
+          updatedAt: ''
+        }
+      }
+    });
   }
 }

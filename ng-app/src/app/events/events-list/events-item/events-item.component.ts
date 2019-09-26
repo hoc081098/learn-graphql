@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Events } from 'src/app/generated/graphql';
+import { Events } from 'src/app/graphql/generated/graphql';
 
 @Component({
   selector: 'app-events-item',

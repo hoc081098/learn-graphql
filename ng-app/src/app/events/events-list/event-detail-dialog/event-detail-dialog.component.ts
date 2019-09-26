@@ -1,6 +1,6 @@
 import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
-import { Events } from 'src/app/generated/graphql';
+import { Events } from 'src/app/graphql/generated/graphql';
 import { AuthService } from 'src/app/auth/auth.service';
 import { EventsService } from '../../events.service';
 import { getErrorMessage } from 'src/app/util/message.util';

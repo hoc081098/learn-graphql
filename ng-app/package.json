@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "graphql": "gql-gen --schema http://localhost:3000/graphql --template graphql-codegen-apollo-angular-template --out src/app/generated/graphql.ts src/app/graphql/*.graphql"
+    "graphql": "gql-gen --schema http://localhost:3000/graphql --template graphql-codegen-apollo-angular-template --out src/app/graphql/generated/graphql.ts src/app/graphql/*.graphql"
   },
   "private": true,
   "dependencies": {

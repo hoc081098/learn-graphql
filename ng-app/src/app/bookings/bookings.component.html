@@ -1,1 +1,10 @@
-<p>bookings works!</p>
+<div *ngIf="isLoading" class="progress-wrapper">
+  <mat-spinner [diameter]="50" [color]="'accent'" class="progress">
+  </mat-spinner>
+</div>
+
+<div *ngIf="bookings$ | async as bookings">
+  <div *ngFor="let booking of bookings" class="bookings-list">
+    <app-booking-item [booking]="booking" (clickCancel)="showCancelBookingsDialog($event)"></app-booking-item>
+  </div>
+</div>
