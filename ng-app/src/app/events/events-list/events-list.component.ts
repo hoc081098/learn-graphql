@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { EventsService } from '../events.service';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { Events } from 'src/app/generated/graphql';
 import { EventDetailDialogComponent } from './event-detail-dialog/event-detail-dialog.component';
@@ -13,6 +13,7 @@ import { EventDetailDialogComponent } from './event-detail-dialog/event-detail-d
 })
 export class EventsListComponent implements OnInit {
   events$: Observable<[Events.Events, string][]>;
+  isLoading = true;
 
   constructor(
     private readonly authService: AuthService,
@@ -23,9 +24,10 @@ export class EventsListComponent implements OnInit {
       this.eventsService.getEvents$(),
       this.authService.currentUserId$()
     ).pipe(
+      tap(() => this.isLoading = false),
       map(([events, uid]) => {
         return events.map(e => [e, uid]);
-      })
+      }),
     );
   }
 

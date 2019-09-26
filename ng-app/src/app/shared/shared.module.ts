@@ -11,7 +11,8 @@ import {
   MatSnackBarModule,
   MatMenuModule,
   MatDialogModule,
-  MatDividerModule
+  MatDividerModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -30,6 +31,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatMenuModule,
     MatDialogModule,
     MatDividerModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     CommonModule,
@@ -45,6 +47,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatMenuModule,
     MatDialogModule,
     MatDividerModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class SharedModule {}

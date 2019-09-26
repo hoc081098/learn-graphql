@@ -4,3 +4,11 @@
   width: 40rem;
   margin: 2rem auto;
 }
+
+.progress {
+  display: inline-block;
+}
+
+.progress-wrapper {
+  text-align: center;
+}
