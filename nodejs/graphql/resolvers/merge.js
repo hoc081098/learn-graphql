@@ -1,26 +1,35 @@
+const DataLoader = require('dataloader');
+
 const Event = require('../../models/event');
 const User = require('../../models/user');
 
 const { dateToString } = require('../../util/date');
 
+const eventsLoader = new DataLoader(async ids => {
+  console.log('events', { ids });
+  const events = await Event.find({ _id: { $in: ids } });
+  return events.map(transformEvent);
+});
+
+const userLoader = new DataLoader(ids => {
+  console.log('user', { ids });
+  return User.find({ _id: { $in: ids } }).exec();
+});
+
 const findUserById = async id => {
-  const user = await User.findById(id);
+  const user = await userLoader.load(id.toString());
   return {
     ...user._doc,
-    createdEvents: () => findEventsByIds(user.createdEvents),
+    createdEvents: () => eventsLoader.loadMany(user.createdEvents.map(id => id.toString())),
   };
 };
 
-const findEventById = async id => {
-  const event = await Event.findById(id);
-  return transformEvent(event);
-}
+const findEventById = id => eventsLoader.load(id.toString());
 
-const findEventsByIds = async ids => {
-  const events = await Event.find({ _id: { $in: ids } });
-  return events.map(transformEvent);
-}
-
+/**
+ * 
+ * @param {*} event 
+ */
 const transformEvent = event => {
   return {
     ...event._doc,
@@ -29,6 +38,10 @@ const transformEvent = event => {
   };
 }
 
+/**
+ * 
+ * @param {*} booking 
+ */
 const transformBooking = booking => {
   return {
     ...booking._doc,
@@ -40,9 +53,6 @@ const transformBooking = booking => {
 }
 
 module.exports = {
-  findUserById,
-  findEventById,
-  findEventsByIds,
   transformEvent,
   transformBooking,
 }
